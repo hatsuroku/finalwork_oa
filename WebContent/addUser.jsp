@@ -9,6 +9,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="myDAO.UserDAO, myModel.UserBean" %>
+<%@ page import="myDAO.DepartmentDAO" %>
+<%@ page import="myModel.DepartmentBean" %>
+<%@ page import="java.util.ArrayList" %>
 <!doctype html>
 <html>
 <head>
@@ -21,6 +24,12 @@
 <%
     request.setCharacterEncoding("utf-8");
     response.setContentType("text/html;charSet=utf-8");
+
+    DepartmentDAO departmentDAO = new DepartmentDAO();
+
+    ArrayList<DepartmentBean> departmentList = departmentDAO.getAllDepartment();
+
+    request.setAttribute("departmentList", departmentList);
 %>
 <div id="head">
     <div class="logo">
@@ -59,13 +68,12 @@
             <span>用户密码</span>
             <input type="password" name="password" required="required" style="width: 50%; height: auto;">
             <span>用户部门</span>
-            <select name="department_id" required="required">
-                <option value="0">无归属</option>
-                <option value="1">教务处</option>
-                <option value="2" selected="selected">计算机系</option>
-                <option value="3">体育部</option>
-                <option value="4">招生办</option>
-                <option value="5">咸鱼部</option>
+            <select name="department_id" style="width:50%; height: auto">
+                <%for(int i=0;i<departmentList.size();i++){
+                    DepartmentBean department = (DepartmentBean)departmentList.get(i);%>
+                <option value="<%=department.getId()%>"><%=department.getName()%></option>
+                <%
+                    } %>
             </select>
             <span>用户权限</span>
             <select name="priority" required="required">

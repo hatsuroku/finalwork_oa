@@ -4,6 +4,7 @@
 <%@page import="myModel.Article"%>
 <%@page import="java.util.List"%>
 <%@page import="myDAO.NewsDAO"%>
+<%@ page import="myDAO.DepartmentDAO" %>
 
 <!doctype html>
 <html>
@@ -33,6 +34,8 @@
 				<%
 					int id = Integer.parseInt(request.getParameter("id"));
 					NewsDAO NewsSearch = new NewsDAO();
+					DepartmentDAO departmentDAO = new DepartmentDAO();
+					request.setAttribute("departmentDAO", departmentDAO);
 					Article article = new Article();
 					article = NewsSearch.getArticleById(id);//根据传过来的id，查询具体的新闻信息
 					request.setAttribute("article", article);
@@ -41,7 +44,7 @@
 				<span>公告标题</span>
 				<input type="text" name="title" required="required" style="width: 50%; height:auto;"  value="${article.getTitle()}" >
 				<span>发布单位</span> 
-				<input type="text" name="department_id" required="required" readonly="readonly" value="${article.getDepartment_id()}" style="width: 50%; height:auto;">
+				<input type="text" name="department_id" required="required" readonly="readonly" value="${ departmentDAO.getNameById(article.getDepartment_id())}" style="width: 50%; height:auto;">
 				<span>发布时间</span> 
 				<input type="date" name="date" readonly="readonly" required="required" value="${article.getDate()}" style="width: 50%; height:auto;">
 				<span>公告内容</span>

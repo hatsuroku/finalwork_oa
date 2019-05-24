@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import myDAO.DepartmentDAO;
 import myDAO.NewsDAO;
 import myModel.Article;
+import myModel.DepartmentBean;
 import myModel.PageBean;
 import myUtil.DbUtil;
 import myUtil.PropertiesUtil;
@@ -26,6 +28,7 @@ import myUtil.StringUtil;
 public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private NewsDAO newsDao = new NewsDAO();
+	private DepartmentDAO departmentDAO = new DepartmentDAO();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -66,6 +69,8 @@ public class SearchServlet extends HttpServlet {
 		// ·ÖÒ³
 		String page = req.getParameter("page");
 		List<Article> newsList = null;
+		ArrayList<DepartmentBean> departmentList = departmentDAO.getAllDepartment();
+
 		if (StringUtil.isEmpty(page)) {
 			page = "1";
 		}
@@ -116,7 +121,7 @@ public class SearchServlet extends HttpServlet {
 				pageNumberList.add(i + "");
 			}
 			req.setAttribute("pageNumberList", pageNumberList);
-
+			req.setAttribute("departmentList", departmentList);
 			req.setAttribute("newsList", newsList);
 			// req.setAttribute("mainPage", "index.jsp");
 

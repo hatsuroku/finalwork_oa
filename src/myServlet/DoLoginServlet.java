@@ -62,6 +62,7 @@ public class DoLoginServlet extends HttpServlet {
         if (password.equals(queryUser.getPassword())) {
             // 登陆成功服务器内部转发
             session.setAttribute("username", username);// 在session里面保存一个用户登陆状态
+            session.setAttribute("priority", queryUser.getPriority());// 在session里面保存一个用户权限信息
             request.getRequestDispatcher("/loginsuccess.jsp").forward(request,
                     response);// Dispatcher：分配器,内部转发不能加上下文
         } else {

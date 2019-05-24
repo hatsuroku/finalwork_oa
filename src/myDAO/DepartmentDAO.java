@@ -1,52 +1,55 @@
 package myDAO;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import myModel.Article;
-import myModel.UserBean;
-import myUtil.DateUtil;
-import myUtil.DbUtil;
-
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+
+import myModel.DepartmentBean;
+import myUtil.DateUtil;
+import myUtil.DbUtil;
+
+/**
+ * 数据操作类
+ *
+ * @author WYP
+ *
+ */
+
+public class DepartmentDAO {
+
     /**
-     * 获取所有用户
+     *      获取所有部门
      */
+    public ArrayList<DepartmentBean> getAllDepartment(){
 
-    public List<UserBean> getAllUsers() {
-        // 建立集合
-        List<UserBean> list = new ArrayList<>();
-        UserBean user = null;
+        ArrayList<DepartmentBean> list = new ArrayList<>();
 
+        DepartmentBean department = null;
         // 建立连接、会话、结果集
         Connection connection = DbUtil.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        Date date = null;
 
         try {
             // 连接到数据库，并开启会话
             statement = (PreparedStatement) connection
-                    .prepareStatement("select * from user order by priority");
+                    .prepareStatement("select * from department order by id ASC");
             // 执行会话，并建立结果集
             resultSet = statement.executeQuery();
             // 遍历结果集，取出数据库里面的信息，并组成实体类
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                int priority = resultSet.getInt("priority");
-                String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                int department_id = resultSet.getInt("department_id");
-
+                String name = resultSet.getString("name");
                 // 遍历一组数据就new一个对象出来。
-                user = new UserBean(id,username, password, department_id, priority);
+                department = new DepartmentBean(id, name);
                 // 将获取到的实体类信息存入集合
-                list.add(user);
+                list.add(department);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,13 +59,14 @@ public class UserDAO {
         return list;
     }
 
-    /**
-     * 根据用户名获取单个用户
-     */
-    public UserBean getUserByUsername(String username) {
-        // 建立对象
-        UserBean user = new UserBean();
 
+    /**
+     *      根据id获取部门名称
+     */
+    public String getNameById(int id){
+
+        // 建立对象
+        String name = null;
         // 建立连接、会话、结果集
         Connection connection = DbUtil.getConnection();
         PreparedStatement statement = null;
@@ -70,29 +74,25 @@ public class UserDAO {
         try {
             // 连接到数据库，并开启会话
             statement = (PreparedStatement) connection
-                    .prepareStatement("select * from user where username=?");
-            statement.setString(1, username);
+                    .prepareStatement("select * from department where id=?");
+            statement.setInt(1, id);
             // 执行会话，并建立结果集
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                user.setId(resultSet.getInt("id"));
-                user.setPriority(resultSet.getInt("priority"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                user.setDepartment_id(resultSet.getInt("department_id"));
+                name = resultSet.getString("name");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             DbUtil.close(connection, statement, resultSet);
         }
-        return user;
+        return name;
     }
 
     /**
-     * 添加用户
+     * 添加部门
      */
-    public void addUser(String username, String password, int department_id, int priority) {
+    public void addDepartment(String name) {
         // 建立连接
         Connection connection = DbUtil.getConnection();
 
@@ -100,11 +100,8 @@ public class UserDAO {
         PreparedStatement statement = null;
         try {
             statement = (PreparedStatement) connection
-                    .prepareStatement("insert into user(username, password, department_id, priority) values(?,?,?,?)");
-            statement.setString(1, username);
-            statement.setString(2, password);
-            statement.setInt(3, department_id);
-            statement.setInt(4, priority);
+                    .prepareStatement("insert into department(name) values(?)");
+            statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,9 +117,9 @@ public class UserDAO {
     }
 
     /**
-     * 删除用户
+     * 删除部门
      */
-    public boolean deleteUserById(int id) {
+    public boolean deleteDepartmentById(int id) {
         // 建立连接
         Connection connection = DbUtil.getConnection();
 
@@ -130,7 +127,7 @@ public class UserDAO {
         PreparedStatement statement = null;
         try {
             statement = (PreparedStatement) connection
-                    .prepareStatement("delete from user where id=?");
+                    .prepareStatement("delete from department where id=?");
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -147,4 +144,5 @@ public class UserDAO {
         }
         return true;
     }
+
 }

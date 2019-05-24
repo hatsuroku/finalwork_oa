@@ -1,7 +1,10 @@
+<%@ page import="myDAO.UserDAO" %>
+<%@ page import="myModel.UserBean" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+		 pageEncoding="utf-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!doctype html>
 <html>
 <head>
@@ -40,31 +43,31 @@
 		</div>
 	</div>
 	<div id="login">
-
 		<label for="add"></label>
 		<div class="bt" id="add"
 			onclick="window.location.href='<%=request.getContextPath()%>/addnews.jsp'">新增公告</div>
 
+		<c:if test="${ priority == 10 }">
 		<label for="add"></label>
 		<div class="bt" id="addUser"
 			onclick="window.location.href='<%=request.getContextPath()%>/addUser.jsp'">新增用户</div>
+		</c:if>
 
+		<c:if test="${ priority == 10 }">
+		<label for="person"></label>
+		<div class="bt" id="person"
+			 onclick="window.location.href='/manaDepartment.jsp'">管理部门</div>
+		</c:if>
+
+		<c:if test="${ priority == 10 }">
 		<label for="myOffice"></label>
 		<div class="bt" id="myOffice"
 			onclick="window.location.href='seeAllUsers.jsp'">查看所有用户</div>
+		</c:if>
 
 		<label for="searchNews"></label>
 		<div class="bt" id="searchNews"
 			onclick="window.location.href='SearchNews.jsp'">查询新闻</div>
-
-		<label for="person"></label>
-		<div class="bt" id="person"
-			onclick="window.location.href='<%=request.getContextPath()%>/person.jsp'">个人信息</div>
-
-
-		<label for="myEmail"></label>
-		<div class="bt" id="myEmail"
-			onclick="window.location.href='https://outlook.live.com/owa/'">查看邮件</div>
 
 
 		<label for="back"></label>

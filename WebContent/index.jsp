@@ -6,6 +6,9 @@
 <%@page import="myModel.Article"%>
 <%@page import="java.util.List"%>
 <%@page import="myDAO.NewsDAO"%>
+<%@ page import="myModel.DepartmentBean" %>
+<%@ page import="myDAO.DepartmentDAO" %>
+<%@ page import="java.util.ArrayList" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -18,6 +21,13 @@
 <script src="js/jquery.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="css/index.css">
 <title>OA</title>
+
+    <%
+        DepartmentDAO departmentDAO = new DepartmentDAO();
+        request.setAttribute("departmentDAO", departmentDAO);
+
+        ArrayList departmentList = (ArrayList) request.getAttribute("departmentList");
+    %>
 
 </head>
 <body style="border: 0px; overflow: hidden;">
@@ -38,77 +48,13 @@
 										<span style="color: #834328;">发布单位：</span> 
 										<select name="fwdw"
 											id="fwdw" style="width: 150px;" onChange="doSearch()">
-											<option value="-1">全部</option>
-											<option value="汕头大学">汕头大学</option>
-											<option value="党委工作部">党委工作部</option>
-											<option value="党委工作部综合办公室">党委工作部综合办公室</option>
-											<option value="党委工作部组宣统办公室">党委工作部组宣统办公室</option>
-											<option value="本科生院">本科生院</option>
-											<option value="本科生院综合办公室">本科生院综合办公室</option>
-											<option value="书院总院">书院总院</option>
-											<option value="研究生院">研究生院</option>
-											<option value="创业学院">创业学院</option>
-											<option value="创新创业研究院">创新创业研究院</option>
-											<option value="行政事务部">行政事务部</option>
-											<option value="教学管理服务中心">教学管理服务中心</option>
-											<option value="学生培养中心">学生培养中心</option>
-											<option value="招生就业办公室">招生就业办公室</option>
-											<option value="校友工作办公室">校友工作办公室</option>
-											<option value="汕头大学党委">汕头大学党委</option>
-											<option value="财务处">财务处</option>
-											<option value="汕头大学纪委">汕头大学纪委</option>
-											<option value="工会">工会</option>
-											<option value="教务处">教务处</option>
-											<option value="科研处">科研处</option>
-											<option value="学生处">学生处</option>
-											<option value="人事处">人事处</option>
-											<option value="校团委">校团委</option>
-											<option value="党委宣传部">党委宣传部</option>
-											<option value="党政办公室">党政办公室</option>
-											<option value="研究生学院">研究生学院</option>
-											<option value="纪委办公室">纪委办公室</option>
-											<option value="监察审计处">监察审计处</option>
-											<option value="资源管理处">资源管理处</option>
-											<option value="党委组织统战部">党委组织统战部</option>
-											<option value="图书馆">图书馆</option>
-											<option value="工学院">工学院</option>
-											<option value="法学院">法学院</option>
-											<option value="理学院">理学院</option>
-											<option value="商学院">商学院</option>
-											<option value="马克思主义学院">马克思主义学院</option>
-											<option value="社科部">社科部</option>
-											<option value="体育部">体育部</option>
-											<option value="文学院">文学院</option>
-											<option value="至诚书院">至诚书院</option>
-											<option value="思源书院">思源书院</option>
-											<option value="知行书院">知行书院</option>
-											<option value="弘毅书院">弘毅书院</option>
-											<option value="淑德书院">淑德书院</option>
-											<option value="修远书院">修远书院</option>
-											<option value="敬一书院">敬一书院</option>
-											<option value="明德书院">明德书院</option>
-											<option value="德馨书院">德馨书院</option>
-											<option value="继续教育学院">继续教育学院</option>
-											<option value="长江艺术与设计学院">长江艺术与设计学院</option>
-											<option value="艺术教育中心">艺术教育中心</option>
-											<option value="长江新闻与传播学院">长江新闻与传播学院</option>
-											<option value="教师发展中心">教师发展中心</option>
-											<option value="英语语言中心">英语语言中心</option>
-											<option value="行政事务部校园安全服务中心">行政事务部校园安全服务中心</option>
-											<option value="网络与信息中心">网络与信息中心</option>
-											<option value="校报编辑部">校报编辑部</option>
-											<option value="学位评定委员会">学位评定委员会</option>
-											<option value="华文文学编辑部">华文文学编辑部</option>
-											<option value="学报编辑部">学报编辑部</option>
-											<option value="高等教育研究所">高等教育研究所</option>
-											<option value="招生办公室">招生办公室</option>
-											<option value="汕头大学体育园">汕头大学体育园</option>
-											<option value="中心实验室">中心实验室</option>
-											<option value="教师发展与教育评估中心">教师发展与教育评估中心</option>
-											<option value="发展规划办">发展规划办</option>
-											<option value="港澳台事务办公室">港澳台事务办公室</option>
-											<option value="国际交流合作处">国际交流合作处</option>
-											<option value="学生创业中心">学生创业中心</option>
+                                            <option selected></option>
+                                            <option value="-1">全部</option>
+                                            <%for(int i=0;i<departmentList.size();i++){
+                                                DepartmentBean department = (DepartmentBean)departmentList.get(i);%>
+											<option value="<%=department.getId()%>"><%=department.getName()%></option>
+                                            <%
+                                            } %>
 
 										</select>
 										<!-- <input type="hidden" id="depart" value=""> -->
@@ -162,16 +108,13 @@
                                 <div class="edit_del">
 
 
-
                                     <a class="right" href="<%=request.getContextPath()%>/updatenews.jsp?id=${article.getId()}">编辑</a>
                                     <a class="right" onclick="confirmDelete(${article.getId()})">删除</a>
 
 
-
-
                                 </div>
                                 </c:if>
-                            <TD width="20%" align="center"><c:out value="${ article.getDepartment_id() }"></c:out></TD>
+                            <TD width="20%" align="center"><c:out value="${ departmentDAO.getNameById(article.getDepartment_id()) }"></c:out></TD>
                             <TD width="20%" align="center"><c:out value="${ article.getDate() }"></c:out></TD>
                         </TR>
 

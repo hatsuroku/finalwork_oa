@@ -59,7 +59,7 @@
 
 		<label for="person"></label>
 		<div class="bt" id="person"
-			onclick="window.location.href='<%=request.getContextPath()%>/person.jsp'">个人信息</div>
+			onclick="window.location.href='<%=request.getContextPath()%>/manaDepartment.jsp'">个人信息</div>
 
 
 		<label for="myEmail"></label>

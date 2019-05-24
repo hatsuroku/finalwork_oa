@@ -3,6 +3,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="myUtil.DateUtil"%>
+<%@ page import="myModel.DepartmentBean" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="myDAO.DepartmentDAO" %>
 <!doctype html>
 <html>
 <head>
@@ -16,6 +19,16 @@
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charSet=utf-8");
 	%>
+
+	<%
+		DepartmentDAO departmentDAO = new DepartmentDAO();
+
+		ArrayList<DepartmentBean> departmentList = departmentDAO.getAllDepartment();
+
+		request.setAttribute("departmentList", departmentList);
+
+	%>
+
 	<div id="head">
 		<div class="logo">
 			<!-- <img src="picture/logo.png"> -->
@@ -51,7 +64,13 @@
 				<span>公告标题</span> 
 				<input type="text" name="title" required="required" style="width: 50%; height: auto;"> 
 				<span>发布单位</span>
-				<input type="text" name="department_id" required="required" style="width: 50%; height: auto;">
+				<select name="department_id" style="width:50%; height: auto">
+				<%for(int i=0;i<departmentList.size();i++){
+					DepartmentBean department = (DepartmentBean)departmentList.get(i);%>
+				<option value="<%=department.getId()%>"><%=department.getName()%></option>
+				<%
+					} %>
+				</select>
 				<%
 					request.setAttribute("CurrentDate",DateUtil.getCurrentDateStr());
 				%>

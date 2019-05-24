@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+import myDAO.DepartmentDAO;
 import myDAO.NewsDAO;
 import myModel.Article;
+import myModel.DepartmentBean;
 import myModel.PageBean;
 import myUtil.DbUtil;
 import myUtil.PropertiesUtil;
@@ -30,6 +32,7 @@ public class NewsServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private NewsDAO newsDao = new NewsDAO();
+	private DepartmentDAO departmentDAO = new DepartmentDAO();
 	
 	public NewsServlet() {
 		super();
@@ -70,6 +73,7 @@ public class NewsServlet extends HttpServlet {
 			int total=newsDao.newsCount();
 			PageBean pageBean=new PageBean(Integer.parseInt(page),Integer.parseInt(PropertiesUtil.getValue("pageSize")));
 			ArrayList<Article> newsList=newsDao.newsList(pageBean);
+			ArrayList<DepartmentBean> departmentList = departmentDAO.getAllDepartment();
 			
 			//·ÖÒ³×ÜÊý
 			int rowCount=total;
@@ -96,7 +100,7 @@ public class NewsServlet extends HttpServlet {
 				pageNumberList.add(i+"");
 			}
 			req.setAttribute("pageNumberList", pageNumberList);
-			
+			req.setAttribute("departmentList", departmentList);
 			req.setAttribute("newsList", newsList);
 //			req.setAttribute("mainPage", "index.jsp");
 

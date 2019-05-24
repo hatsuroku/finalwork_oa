@@ -2,23 +2,28 @@ package myModel;
 
 public class DepartmentBean {
 
-    public static String showDepartment(int department) {
-        switch (department) {
-            case 0 :
-                return "无归属";
-            case 1 :
-                return "教务处";
-            case 2 :
-                return "计算机系";
-            case 3 :
-                return "体育部";
-            case 4 :
-                return "招生办";
-            case 5 :
-                return "咸鱼部";
-            default:
-                return "";
-        }
+    private int id;
+    private String name;
+
+    public DepartmentBean(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

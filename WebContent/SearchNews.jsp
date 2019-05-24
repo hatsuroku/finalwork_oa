@@ -11,6 +11,17 @@
 <%@page import="myModel.Article"%>
 <%@page import="java.util.List"%>
 <%@page import="myDAO.NewsDAO"%>
+<%@ page import="myModel.DepartmentBean" %>
+<%@ page import="myDAO.DepartmentDAO" %>
+<%@ page import="java.util.ArrayList" %>
+
+<%
+    DepartmentDAO departmentDAO = new DepartmentDAO();
+
+    ArrayList<DepartmentBean> departmentList = departmentDAO.getAllDepartment();
+
+    request.setAttribute("departmentList", departmentList);
+%>
 
 <!doctype html>
 <html>
@@ -31,7 +42,7 @@
 <div id="nav">
     <div class="navblock">
         <ul>
-            <li><a href="javascript:void(0)" class="detail">修改公告</a></li>
+            <li><a href="javascript:void(0)" class="detail">查找公告</a></li>
         </ul>
     </div>
 </div>
@@ -41,7 +52,13 @@
             <span><input type="radio" name="search_method" required="required" checked="checked" value="1" />按照标题查找</span>
             <input type="text" name="title" style="width: 50%; height:auto;" />
             <span><input type="radio" name="search_method" required="required" value="2" />按照发布单位查找</span>
-            <input type="text" name="department_id" style="width: 50%; height:auto;" />
+            <select name="department_id" style="width:50%; height: auto">
+                <%for(int i=0;i<departmentList.size();i++){
+                    DepartmentBean department = (DepartmentBean)departmentList.get(i);%>
+                <option value="<%=department.getId()%>"><%=department.getName()%></option>
+                <%
+                    } %>
+            </select>
             <span><input type="radio" name="search_method" required="required" value="3" />按照内容查找</span>
             <div id="textEdit">
                 <textarea rows="36" class="textarea" name="content" style="width: 100%; height:auto;"></textarea>

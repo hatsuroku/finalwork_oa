@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>OA</display-name>
   <welcome-file-list>
-    <welcome-file>main.jsp</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <filter>
     <filter-name>LoginFilter</filter-name>
@@ -51,6 +51,34 @@
     <url-pattern>/AddUser</url-pattern>
   </servlet-mapping>
 
-  
-  
+
+  <servlet>
+    <servlet-name>AddDepartmentServlet</servlet-name>
+    <servlet-class>myServlet.AddDepartmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddDepartmentServlet</servlet-name>
+    <url-pattern>/AddDepartment</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteDepartmentServlet</servlet-name>
+    <servlet-class>myServlet.DeleteDepartmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteDepartmentServlet</servlet-name>
+    <url-pattern>/DeleteDepartment</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>DeleteUserServlet</servlet-name>
+    <servlet-class>myServlet.DeleteUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteUserServlet</servlet-name>
+    <url-pattern>/DeleteUser</url-pattern>
+  </servlet-mapping>
+
+
 </web-app>

@@ -362,4 +362,5 @@ public class NewsDAO {
 
 		return newsList;
 	}
+
 }

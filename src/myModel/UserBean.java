@@ -1,6 +1,7 @@
 package myModel;
 
 public class UserBean {
+    private int id;
     private String username;        //用户名 varchar(45) 主键 不允许有相同用户名
     private String password;        //密码   varchar(45) Binary 区分大小写
     private int department_id;      //用户所属部门(外键)
@@ -9,11 +10,20 @@ public class UserBean {
 
     public UserBean() {}
 
-    public UserBean(String username, String password, int department_id, int priority) {
+    public UserBean(int id, String username, String password, int department_id, int priority) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.department_id = department_id;
         this.priority = priority;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
